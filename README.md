@@ -19,7 +19,7 @@ The crop model uses temperature, humidity, and rainfall as input features. Rainf
 - Windows computer running Python 3
 - Arduino IDE with ESP32 and Arduino Nano board support
 - ESP32 development board, Arduino Nano, compatible sensors, motor driver, motors, and servo
-- OpenWeather API key for weather data
+- OpenWeatherMap API key for weather data
 - Gemini API key for AI-generated suggestions
 - A Wi-Fi network shared by the ESP32 and the computer running Flask
 
@@ -65,7 +65,7 @@ Keep the terminal open while the system is in use. The server listens on port `5
 http://127.0.0.1:5000
 ```
 
-The live sensor data endpoint is available at `http://127.0.0.1:5000/api/get-data`. OpenWeather data refreshes every 10 minutes, and Gemini requests are made in the background no more than once per minute. If Gemini is unavailable, the dashboard can still show the machine-learning prediction.
+The live sensor data endpoint is available at `http://127.0.0.1:5000/api/get-data`. OpenWeatherMap data refreshes every 10 minutes, and Gemini requests are made in the background no more than once per minute. If Gemini is unavailable, the dashboard can still show the machine-learning prediction.
 
 ## Configure and upload the ESP32 sketch
 
@@ -76,6 +76,7 @@ In Arduino IDE's Library Manager, install:
 - **ArduinoJson** by Benoit Blanchon
 - **DHT sensor library** by Adafruit
 - **Adafruit Unified Sensor** by Adafruit
+- **Servo** by Arduino
 
 Install the ESP32 board support package if it is not already installed.
 
