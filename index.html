@@ -731,7 +731,7 @@
                 <article class="step-card">
                     <div class="step-top"><span class="step-number">02</span><span class="step-icon" aria-hidden="true">↗</span></div>
                     <h3>Bring in context</h3>
-                    <p>A Flask server receives the readings over Wi-Fi and combines them with weather and air-quality information from OpenWeather.</p>
+                    <p>A Flask server receives the readings over Wi-Fi and combines them with weather and air-quality information from OpenWeatherMap.</p>
                 </article>
                 <article class="step-card">
                     <div class="step-top"><span class="step-number">03</span><span class="step-icon" aria-hidden="true">✳</span></div>
@@ -741,7 +741,7 @@
             </div>
             <div class="data-note">
                 <strong>DATA FLOW</strong>
-                <p>The current ESP32 sketch sends JSON to Flask about every five seconds when Wi-Fi and the DHT reading are available. Flask validates the payload, updates the latest in-memory readings, applies simple sensor labels, and runs the crop classifier. OpenWeather refreshes about every ten minutes; Gemini requests are limited to at most once per minute. The checked-in app is configured as a local-network Flask server, not a deployed cloud service.</p>
+                <p>The current ESP32 sketch sends JSON to Flask about every five seconds when Wi-Fi and the DHT reading are available. Flask validates the payload, updates the latest in-memory readings, applies simple sensor labels, and runs the crop classifier. OpenWeatherMap refreshes about every ten minutes; Gemini requests are limited to at most once per minute. The checked-in app is configured as a local-network Flask server, not a deployed cloud service.</p>
             </div>
         </div>
     </section>
@@ -766,7 +766,7 @@
                         <div class="sensor"><i>☼</i><div><strong>Ambient light</strong><small>LDR readings are grouped into bright, dim, or dark conditions.</small></div></div>
                         <div class="sensor"><i>≈</i><div><strong>Soil moisture</strong><small>Analog readings are grouped into simple moisture categories.</small></div></div>
                         <div class="sensor"><i>↕</i><div><strong>Ultrasonic distance</strong><small>Distance in centimetres feeds a basic growth/harvest indicator.</small></div></div>
-                        <div class="sensor"><i>↗</i><div><strong>Weather & air quality</strong><small>OpenWeather supplies local conditions and an AQI category.</small></div></div>
+                        <div class="sensor"><i>↗</i><div><strong>Weather & air quality</strong><small>OpenWeatherMap supplies local conditions and an AQI category.</small></div></div>
                     </div>
                     <div class="pin-table-wrap">
                         <table class="pin-table">
@@ -794,7 +794,7 @@
             </div>
             <div class="data-note">
                 <strong>DATA NOTE</strong>
-                <p>The model training data is based on Atharva Ingle's Crop Recommendation Dataset (Kaggle), licensed under Apache 2.0; the N, P, K, and pH columns were removed. Rainfall is estimated from the current OpenWeather one-hour precipitation value multiplied by 24, not measured daily rainfall. Sensor thresholds are configurable starting estimates. The current dashboard shows the latest values held in server memory; persistent farm-wide history is part of the broader product vision, not current storage behavior.</p>
+                <p>The model training data is based on Atharva Ingle's Crop Recommendation Dataset (Kaggle), licensed under Apache 2.0; the N, P, K, and pH columns were removed. Rainfall is estimated from the current OpenWeatherMap one-hour precipitation value multiplied by 24, not measured daily rainfall. Sensor thresholds are configurable starting estimates. The current dashboard shows the latest values held in server memory; persistent farm-wide history is part of the broader product vision, not current storage behavior.</p>
             </div>
         </div>
     </section>
