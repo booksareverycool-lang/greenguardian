@@ -38,6 +38,7 @@
         a { color: inherit; }
         .wrap { width: min(1160px, calc(100% - 48px)); margin: 0 auto; }
         .topbar {
+            display: none;
             position: sticky;
             z-index: 10;
             top: 0;
@@ -84,13 +85,16 @@
         .nav .repo-link:hover { background: var(--leaf); color: var(--night); }
         .hero {
             display: grid;
-            min-height: 670px;
+            min-height: 100svh;
             grid-template-columns: minmax(0, 1.04fr) minmax(390px, .96fr);
             align-items: center;
             gap: 48px;
-            padding-top: 64px;
-            padding-bottom: 76px;
+            padding-top: 56px;
+            padding-bottom: 92px;
         }
+        .hero-signature { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 28px; color: #dbe7d8; font-size: 12px; font-weight: 720; letter-spacing: -.02em; }
+        .hero-signature .brand-icon { width: 34px; height: 34px; border-radius: 11px; }
+        .hero-signature span:last-child { color: var(--muted); font-weight: 460; }
         .eyebrow {
             display: flex;
             align-items: center;
@@ -252,12 +256,14 @@
         .telemetry-value { font-size: 17px; font-weight: 670; letter-spacing: -.04em; }
         .telemetry-value small { color: var(--leaf); font-size: 9px; font-weight: 600; }
         .section { padding: 82px 0; border-top: 1px solid rgba(211, 235, 204, .1); }
+        .section .wrap, .closing, footer {
+            opacity: 1;
+            transform: translateY(0);
+        }
         .motion-ready .section .wrap, .motion-ready .closing, .motion-ready footer {
-            opacity: 0;
-            transform: translateY(28px);
             transition: opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1);
         }
-        .motion-ready .is-visible { opacity: 1; transform: translateY(0); }
+        .motion-ready .is-visible { animation: rise-in .8s cubic-bezier(.2,.8,.2,1) both; }
         .section-head {
             display: flex;
             align-items: end;
@@ -584,8 +590,14 @@
     <section class="wrap hero">
         <div class="fade-in">
             <p class="eyebrow">Connected agriculture · project overview</p>
-            <h1>Know your field.<br><em>Grow with insight.</em></h1>
-            <p class="hero-copy">GreenGuardian is an agricultural monitoring project exploring how mobile sensing, embedded control, local weather, and crop models can work together to make field conditions easier to understand.</p>
+            <div class="hero-signature" aria-label="GreenGuardian field intelligence">
+                <span class="brand-icon" aria-hidden="true">
+                    <svg width="21" height="21" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 24.8C6.4 14.6 12.2 7.6 25.7 6.4C25 19.1 18.7 25.5 6 24.8Z" fill="currentColor"/><path d="M6.8 25.1C11.2 20.4 16.2 15.6 23.7 9.3" stroke="#101810" stroke-width="1.7" stroke-linecap="round"/></svg>
+                </span>
+                GreenGuardian <span>/ autonomous field intelligence</span>
+            </div>
+            <h1>The field,<br><em>always in view.</em></h1>
+            <p class="hero-copy">A mobile sensing robot that samples the soil, reads the environment, and turns live field signals into practical crop intelligence.</p>
             <div class="hero-actions">
                 <a class="button button-primary" href="#system">Explore the system <span aria-hidden="true">↓</span></a>
                 <a class="button button-secondary" href="https://github.com/booksareverycool-lang/greenguardian" target="_blank" rel="noopener noreferrer">View the project <span aria-hidden="true">↗</span></a>
