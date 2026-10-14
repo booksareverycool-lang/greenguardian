@@ -10,13 +10,15 @@ GreenGuardian is an IoT crop-monitoring application that combines ESP32 sensor r
 4. The server can request three additional crop suggestions from Gemini. These suggestions are presented separately from the model prediction.
 5. A browser dashboard displays sensor readings, weather, and crop recommendations. The ESP32 also reports connection and response details through its Serial Monitor.
 
+The project also includes an Arduino Nano robot sketch for timed motor movement and servo operation. The Nano and ESP32 currently run separate sketches; they do not yet communicate or coordinate robot movement with a confirmed soil reading.
+
 The crop model uses temperature, humidity, and rainfall as input features. Rainfall is estimated by multiplying the current OpenWeatherMap one-hour precipitation value by 24; it is not a measured daily total. Sensor cutoff values are initial estimates and may need adjustment for the specific sensor modules.
 
 ## Requirements
 
 - Windows computer running Python 3
-- Arduino IDE with ESP32 board support
-- ESP32 development board and compatible sensors
+- Arduino IDE with ESP32 and Arduino Nano board support
+- ESP32 development board, Arduino Nano, compatible sensors, motor driver, motors, and servo
 - OpenWeather API key for weather data
 - Gemini API key for AI-generated suggestions
 - A Wi-Fi network shared by the ESP32 and the computer running Flask
@@ -25,7 +27,9 @@ The crop model uses temperature, humidity, and rainfall as input features. Rainf
 
 ### 1. Obtain the project files
 
-Clone the repository or download and extract its contents. Preserve the project structure, including `templates/index.html`, `crop_model.pkl`, and `ESP32_Client/ESP32_Client.ino`.
+Clone the repository or download and extract its contents. Preserve the project structure, including the root-level `index.html`, `templates/index.html`, `crop_model.pkl`, `ESP32_Client/ESP32_Client.ino`, and `Robot/Robot.ino`.
+
+The root-level `index.html` is the standalone project website. `templates/index.html` is the Flask dashboard template; keep these files in their respective locations.
 
 ### 2. Install Python dependencies
 
@@ -105,6 +109,32 @@ Update the sketch pin definitions to match the actual wiring. ESP32 GPIO inputs 
 Select the correct ESP32 board and COM port in Arduino IDE, then upload the sketch. Open Serial Monitor at **115200 baud**. The sketch sends readings approximately every five seconds; successful posts receive an HTTP `200` response. Check the dashboard or `/api/get-data` endpoint to confirm that sensor values are updating.
 
 The ESP32 needs power, Wi-Fi access, and a reachable Flask server to send readings. USB is only required for programming and Serial Monitor access if another suitable power source is used.
+
+## Configure and upload the Arduino Nano robot sketch
+
+Open `Robot/Robot.ino` in Arduino IDE, select the Arduino Nano and its COM port, and install/select a compatible Nano board core. The sketch uses the Arduino `Servo` library (included with Arduino IDE) and these pins:
+
+| Function | Arduino Nano pin |
+| --- | ---: |
+| Servo signal | D4 |
+| Motor-driver inputs | D11, D10, D8, D9 |
+
+Upload the sketch to the Nano. It runs a timed motor sequence, stops, sweeps the servo from 0 to 120 degrees and back, then runs another timed motor sequence. The timings, motor directions, and servo travel may need adjustment for the chassis and probe mechanism.
+
+Use a suitable motor driver between the Nano and the motors; do not power motors directly from Nano GPIO pins. Use appropriately rated power supplies for the motors and servo, and connect grounds as required by the driver circuit. Check the servo's mechanical travel before attaching the probe. This sketch uses timed movement and has no encoder or other feedback for closed-loop navigation.
+
+The Nano and ESP32 sketches are uploaded to separate boards. The current sketches do not provide inter-board communication or synchronize probe actuation with a confirmed soil reading.
+
+## Publish the project website with GitHub Pages (optional)
+
+The root-level `index.html` is a static project website and can be published independently of the Flask dashboard:
+
+1. Push the repository, including the root-level `index.html`, to GitHub.
+2. In the repository, open **Settings → Pages**.
+3. Under **Build and deployment**, choose **Deploy from a branch**, then select the branch and repository root (`/`).
+4. Save the settings and open the Pages URL after deployment completes.
+
+GitHub Pages hosts only the static website. It does not run Flask, receive ESP32 sensor data, or provide the live dashboard API. The root-level `index.html` and `templates/index.html` are separate pages for these different purposes.
 
 ## Sensor thresholds
 
