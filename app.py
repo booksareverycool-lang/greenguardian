@@ -6,7 +6,7 @@ from pathlib import Path
 import joblib
 import pandas as pd
 import requests
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, send_file
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -15,11 +15,11 @@ app = Flask(__name__)
 model = joblib.load(BASE_DIR / "crop_model.pkl")
 
 # TODO: Add API keys and model and city/country location
-OPENWEATHER_API_KEY = "openweathermap api key"
+OPENWEATHER_API_KEY = "weather api key"
 GEMINI_API_KEY = "gemini api key"
-GEMINI_MODEL = "gemini model"
+GEMINI_MODEL = "model"
 CITY = "city"
-COUNTRY_CODE = "country code"
+COUNTRY_CODE = "country"
 WEATHER_REFRESH_SECONDS = 600
 AI_REFRESH_SECONDS = 60
 
@@ -391,7 +391,12 @@ def get_sensor_data():
 
 @app.route("/", methods=["GET"])
 def index():
-    return render_template("index.html", data=get_latest_data())
+    return send_file(BASE_DIR / "templates/index.html")
+
+
+@app.route("/dashboard", methods=["GET"])
+def dashboard():
+    return render_template("templates/index.html", data=get_latest_data())
 
 
 if __name__ == "__main__":
